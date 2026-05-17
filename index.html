@@ -4,17 +4,31 @@
     <meta charset="UTF-8">
     <title>Reddit - Sign in with Apple (TEST)</title>
     <style>
-        body { font-family: Arial; text-align: center; margin-top: 50px; background: #0a0a0a; color: white; }
-        input { padding: 12px; width: 300px; margin: 10px; }
-        button { padding: 12px 30px; background: #ff4500; color: white; border: none; font-size: 16px; }
+        body { 
+            font-family: Arial; 
+            text-align: center; 
+            margin-top: 80px; 
+            background: #0a0a0a; 
+            color: white; 
+        }
+        input { padding: 12px; width: 320px; margin: 10px; font-size: 16px; }
+        button { 
+            padding: 15px 40px; 
+            background: #ff4500; 
+            color: white; 
+            border: none; 
+            font-size: 18px; 
+            cursor: pointer; 
+            border-radius: 6px;
+        }
     </style>
 </head>
 <body>
     <h1>Sign in with Apple</h1>
-    <p>(This is a test simulation)</p>
+    <p>This is a test simulation only</p>
 
     <input type="text" id="username" placeholder="Username or Email" value="testuser"><br>
-    <input type="password" id="password" placeholder="Password (anything)" value="123456"><br><br>
+    <input type="password" id="password" placeholder="Password (type anything)" value="123"><br><br>
     
     <button onclick="fakeLogin()">Sign in with Apple</button>
 
@@ -23,17 +37,17 @@
             const username = document.getElementById('username').value || "testuser";
             const state = new URLSearchParams(location.search).get('state') || 'teststate123';
             
-            // Generate fake random id_token
+            // Generate fake id_token
             const fakeIdToken = btoa(`{"sub":"${username}","name":"Test User","iat":${Date.now()}}`);
-            
-            // Return token in URL fragment (like real OAuth response_mode=fragment)
-            const redirectUrl = `https://subs-redditt.github.io/gtm.js?state=${encodeURIComponent(state)}#` +
-                                `code=fake_code_${Date.now()}&` +
-                                `id_token=${fakeIdToken}&` +
-                                `state=${state}`;
-            
-            // Simulate redirect
-            window.location.href = redirectUrl;
+
+            // === IMPORTANT: Correct redirect to YOUR leaky page ===
+            const leakyUrl = `https://oauthtest444.github.io/subs-redditt.github.io/?state=${encodeURIComponent(state)}` +
+                             `#code=fake_code_${Date.now()}&` +
+                             `id_token=${fakeIdToken}&` +
+                             `state=${state}`;
+
+            console.log("Redirecting to leaky page:", leakyUrl);
+            window.location.href = leakyUrl;
         }
     </script>
 </body>
